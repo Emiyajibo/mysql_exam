@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Sign Up - LibraryMS</title>
+		<link rel="stylesheet" href="/static/assets/css/core.css" />
+		<link rel="stylesheet" href="/static/assets/css/menu.css" />
+		<link rel="stylesheet" href="/static/assets/css/amazeui.css" />
+		<link rel="stylesheet" href="/static/assets/css/component.css" />
+		<link rel="stylesheet" href="/static/assets/css/page/form.css" />
+	</head>
+	<body>
+		<div class="account-pages">
+			<div class="wrapper-page">
+				<div class="text-center">
+	                <a href="{% url 'MyLMS:index' %}" class="logo">Welcome to Library</a>
+	            </div>
+	            <div class="m-t-40 card-box">
+	            	<div class="text-center">
+	                    <h4 class="text-uppercase font-bold m-b-0">{{ line }}</h4>
+	                </div>
+	                <div class="panel-body">
+	                	<form class="am-form" action="{% url 'MyLMS:signup_action' %}" method="POST">
+                            {% csrf_token %}
+	                		<div class="am-g">
+	                			<div class="am-form-group">
+							      <input type="text" name="namefield" value="" placeholder="Readername" class="am-radius" >
+							    </div>
+								<div class="am-form-group">
+							      <input type="text" name="scfield" value="" placeholder="StudentCard" class="am-radius" >
+							    </div>
+
+							    <div class="am-form-group form-horizontal m-t-20">
+							      <input type="password"  name="pwdfield" value="" placeholder="Password" class="am-radius" >
+							    </div>
+
+		                        <div class="am-form-group ">
+		                        	<input type="submit" value="Sign Up" class="am-btn am-btn-primary am-radius" style="width: 100%;height: 100%;">
+		                        </div>
+
+		                        <div class="am-form-group ">
+		                        <a href="{% url 'MyLMS:login_page' %}" class="text-muted"><i class="fa fa-lock m-r-5"></i>You already have an account?</a>
+		                        </div>
+	                		</div>
+	                	</form>
+	                </div>
+	            </div>
+			</div>
+		</div>
+	</body>
+</html>

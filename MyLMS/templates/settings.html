@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Settings - LibraryMS</title>
+		<link rel="stylesheet" href="/static/assets/css/amazeui.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/assets/css/core.css" />
+		<link rel="stylesheet" href="/static/assets/css/menu.css" />
+		<link rel="stylesheet" href="/static/assets/css/index.css" />
+		<link rel="stylesheet" href="/static/assets/css/admin.css" />
+		<link rel="stylesheet" href="/static/assets/css/page/typography.css" />
+		<link rel="stylesheet" href="/static/assets/css/page/form.css" />
+	</head>
+	<body>
+		<!-- Begin page -->
+		<header class="am-topbar am-topbar-fixed-top">
+			<div class="am-topbar-left am-hide-sm-only">
+                <a href="{% url 'MyLMS:index' %}" class="logo">Library<span>MS</span></span><i class="zmdi zmdi-layers"></i></a>
+            </div>
+
+			<div class="contain">
+				<ul class="am-nav am-navbar-nav am-navbar-left">
+					<li><h4 class="page-title">(●'◡'●) Your info As Follow：  </h4></li>
+				</ul>
+				<ul class="am-nav am-navbar-nav am-navbar-right">
+					<li class="inform"><i class="am-icon-bell-o" aria-hidden="true"></i></li>
+				</ul>
+			</div>
+		</header>
+		<!-- end page -->
+
+
+		<div class="admin">
+		    <!-- ========== Left Sidebar Start ========== -->
+            <!-- sidebar start -->
+            <div class="admin-sidebar am-offcanvas  am-padding-0" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+                <!-- User -->
+                <div class="user-box am-hide-sm-only">
+                    <div class="user-img">
+                        <img src="/static/assets/img/avatar-1.jpg" alt="user-img" title="user_img" class="img-circle img-thumbnail img-responsive">
+                    </div>
+                    <h5>{{request.session.reader_name}}</h5>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{% url 'MyLMS:info' %}">
+
+                                <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="fa fa-cog"> </span> info</button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'MyLMS:logout_action' %}">
+                                <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-dot-circle-o"> </span> Logout </button>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End User -->
+
+                 <ul class="am-list admin-sidebar-list">
+                    <li><a href="{% url 'MyLMS:index' %}"><span class="am-icon-home"></span>  Home </a></li>
+                     <li><a href="{% url 'MyLMS:bookslist' %}"><span class="am-icon-copy"></span>  Books List </a></li>
+                    <li><a href="{% url 'MyLMS:record_page' %}"><span class="am-icon-table"></span>  Borrow Record </a></li>
+                     <li><a href=""><span class="am-icon-line-chart"></span>  Data Chart </a></li>
+                     <li>.  </li>
+                  </ul>
+            </div>
+          </div>
+            <!-- sidebar end -->
+            <!-- ========== Left Sidebar end ========== -->
+
+		    <!-- ============================================================== -->
+		    <!-- Start right Content here -->
+		    <div class="content-page">
+                <!-- row start -->
+			<div class="am-g">
+				<!-- col start -->
+				<div class="am-u-md-11">
+					<div class="card-box">
+						<div class="am-form-success">
+							    <label><font size = "6">Your Readername  : {{ reader.Name }}</font></label>
+                        </div>
+
+						<div class="am-btn-xs am-text-secondary">
+
+							    <label><font size = "4">Your ID : {{ reader.id }}</font></label>
+                                <br>
+                                <label><font size = "4">Your StudentCard: {{ reader.StudentCard }}</font></label>
+                                <br>
+                        </div>
+
+
+                        <hr />
+                        <p>Tips：Sorry!You are not allow to  Change Your INFO by yourself (●'◡'●)Find Library</p>
+					</div>
+				</div>
+
+				<!-- col end -->
+
+            </div>
+            </div>
+            <!-- end right Content here -->
+        </div>
+
+
+		<!-- navbar -->
+		<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+		<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="/static/assets/js/amazeui.min.js"></script>
+		<script type="text/javascript" src="/static/assets/js/app.js" ></script>
+		<script type="text/javascript" src="/static/assets/js/blockUI.js" ></script>
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
+

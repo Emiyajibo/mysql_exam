@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Bookslist - LibraryMS</title>
+		<link rel="stylesheet" href="/static/assets/css/amazeui.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/assets/css/core.css" />
+		<link rel="stylesheet" href="/static/assets/css/menu.css" />
+		<link rel="stylesheet" href="/static/assets/css/index.css" />
+		<link rel="stylesheet" href="/static/assets/css/admin.css" />
+		<link rel="stylesheet" href="/static/assets/css/page/typography.css" />
+		<link rel="stylesheet" href="/static/assets/css/page/form.css" />
+	</head>
+	<body>
+		<!-- Begin page -->
+		<header class="am-topbar am-topbar-fixed-top">
+			<div class="am-topbar-left am-hide-sm-only">
+                <a href="{% url 'MyLMS:index' %}" class="logo">Library<span>MS</span></span><i class="zmdi zmdi-layers"></i></a>
+            </div>
+
+			<div class="contain">
+				<ul class="am-nav am-navbar-nav am-navbar-left">
+					<li><h4 class="page-title">Hi! {{request.session.reader_name}}.o(^▽^)o Welcome to Library!  </h4></li>
+				</ul>
+				<ul class="am-nav am-navbar-nav am-navbar-right">
+					<li class="inform"><i class="am-icon-bell-o" aria-hidden="true"></i></li>
+					<li class="hidden-xs am-hide-sm-only">
+                        <form role="search" class="app-search" action="{% url 'MyLMS:search_action' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" name = "title" value="" placeholder="Search..." class="form-control">
+                            <img src="/static/assets/img/search.png">
+                            <input type="submit" value="">
+                        </form>
+                    </li>
+				</ul>
+			</div>
+		</header>
+		<!-- end page -->
+
+
+		<div class="admin">
+		    <!-- ========== Left Sidebar Start ========== -->
+            <!-- sidebar start -->
+            <div class="admin-sidebar am-offcanvas  am-padding-0" id="admin-offcanvas">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+                <!-- User -->
+                <div class="user-box am-hide-sm-only">
+                    <div class="user-img">
+                        <img src="/static/assets/img/avatar-1.jpg" alt="user-img" title="user_img" class="img-circle img-thumbnail img-responsive">
+                    </div>
+                    <h5>{{request.session.reader_name}}</h5>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{% url 'MyLMS:info' %}">
+                                <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="fa fa-cog"> </span> info</button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'MyLMS:logout_action' %}">
+                                <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-dot-circle-o"> </span> Logout </button>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End User -->
+
+                 <ul class="am-list admin-sidebar-list">
+                    <li><a href="{% url 'MyLMS:index' %}"><span class="am-icon-home"></span>  Home </a></li>
+                    <li><a href="{% url 'MyLMS:bookslist' %}"><span class="am-icon-copy"></span>  Books List </a></li>
+
+                    <li><a href="{% url 'MyLMS:record_page' %}"><span class="am-icon-table"></span>  Borrow Record </a></li>
+                    <li><a href=""><span class="am-icon-line-chart"></span>  Data Chart </a></li>
+                      <li>.  </li>
+                  </ul>
+            </div>
+            </div>
+            <!-- sidebar end -->
+            <!-- ========== Left Sidebar end ========== -->
+
+		    <!-- ============================================================== -->
+		    <!-- Start right Content here -->
+		    <div class="content-page">
+			<!-- Start content -->
+			<div class="content">
+				<div class="card-box">
+					<!-- Row start -->
+					<div class="am-g">
+                        <div class="am-u-sm-12">
+                            <form class="am-form">
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-id">ID</th>
+                                        <th class="table-title">Title</th>
+                                        <th class="table-type">Author</th>
+                                        <th class="table-author am-hide-sm-only">ISBN</th>
+                                        <th class="table-set">Publisher</th>
+                                        <th class="table-date am-hide-sm-only">Pub_Time</th>
+                                        <th class="table-title">Position</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      {% for book in books.object_list  %}
+                                      <tr>
+                                        <td>{{ book.id }}</td>
+                                        <td><a href="{% url 'MyLMS:book_page' book.id %}">{{ book.Title }}</a></td>
+                                        <td>{{ book.Author}}</td>
+                                        <td class="am-hide-sm-only">{{book.ISBN}}</td>
+                                        <td class="am-hide-sm-only">{{book.Publisher}}</td>
+                                        <td class="am-hide-sm-only">{{book.Pub_Time}}</td>
+                                        <td>{{book.Position}}</td>
+                                        {% if book.Available   %}
+                                          <td><span class="label label-success"><i class="am-icon-thumbs-o-up"></i></span></td>
+                                        {% else %}
+                                           <td><span class="label label-danger"><i class="am-icon-close"></i></span></td>
+                                        {% endif %}
+                                      </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                </table>
+                                <div class="am-cf">
+                                  Currently displayed {{ books | length }} books / A total of {{ booksall }} books here
+                                  <div class="am-fr">
+                                    <ul class="am-pagination">
+                                        {% if books.has_previous %}
+                                          <li><a href="?page={{ books.previous_page_number }}">«</a></li>
+                                        {% endif %}
+                                        <!--{# books.paginator.number_pages 返回总页数 #}-->
+                                          Page {{ books.number }} of {{ books.paginator.num_pages }}.
+                                        {% if books.has_next %}
+                                          <li><a href="?page={{ books.next_page_number }}">»</a></li>
+                                        {% endif %}
+                                      <!--{# books.paginator.page_range 这个函数返回包含一个所有页码数的 range 对象 #}-->
+                                      <!--{# 即 range(1, books.paginator.num_pages + 1) #}-->
+                                      {% for page_number in books.paginator.page_range %}
+                                      {% ifequal page_number  books.number %}
+                                        <li class="am-active"><a href="#">{{ page_number }}</a></li>
+                                      {% else %}
+                                        <li><a href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                      {% endifequal %}
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                                </div>
+                                <hr />
+                                <p>Tips：Some tips should be written here (●'◡'●)</p>
+                            </form>
+                        </div>
+
+                     </div>
+                    <!-- Row end -->
+
+                </div>
+            </div>
+        </div>
+            <!-- end right Content here -->
+        </div>
+
+
+		<!-- navbar -->
+		<a href="admin-offcanvas" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+		<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="/static/assets/js/amazeui.min.js"></script>
+		<script type="text/javascript" src="/static/assets/js/app.js" ></script>
+		<script type="text/javascript" src="/static/assets/js/blockUI.js" ></script>
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
