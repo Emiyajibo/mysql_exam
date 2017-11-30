@@ -64,7 +64,6 @@
                     <li><a href="{% url 'MyLMS:index' %}"><span class="am-icon-home"></span>  Home </a></li>
                     <li><a href="{% url 'MyLMS:bookslist' %}"><span class="am-icon-copy"></span>  Books List </a></li>
                     <li><a href="{% url 'MyLMS:record_page' %}"><span class="am-icon-table"></span>  Borrow Record </a></li>
-                    <li><a href=""><span class="am-icon-line-chart"></span>  Data Chart </a></li>
                       <li>.  </li>
                   </ul>
             </div>
@@ -74,45 +73,40 @@
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
-            <div class="content-page">
+            <div class="am-u-md-12">
                 <!-- Start content -->
                 <div class="content">
                     <div class="am-g">
                         <!-- Row start -->
-                        <div class="am-u-md-5">
-                                <div class="card-box">
-                                    <h2>Available/Total</h2>
-                                    <div class="widget-box-2">
-                                        <div class="widget-detail-2">
-                                            <span class="badge  pull-left m-t-20  am-round" style="color: #fff; background: #0e90d2;">{{booksum.per}}%<i class="zmdi zmdi-trending-up"></i> </span>
-                                            <h2 class="m-b-0"> {{booksum.available}}/{{booksum.sum}} </h2>
-                                            <p class="text-muted m-b-25">Revenue today</p>
-                                        </div>
-                                        <br>
-                                        <div class="am-progress am-progress-xs am-margin-bottom-0">
-                                            <div class="am-progress-bar" style="width: {{booksum.per}}%"></div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <h3>Your has been Fined:</h3>
-                                    <div class="widget-box-2">
-                                        <div class="widget-detail-2">
-                                            <span class="badge  pull-left m-t-20  am-round" style="color: #fff; background: #E35353;">100%<i class="zmdi zmdi-trending-up"></i> </span>
-                                            <h2 class="m-b-0"> {{TotalFine}} </h2>
-                                            <p class="text-muted m-b-25">Revenue today</p>
-                                        </div>
-                                        <br>
-                                        <div class="am-progress am-progress-xs am-margin-bottom-0">
-                                            <div class="am-progress-bar" style="width: 100% ; background: #E35353;"></div>
-                                        </div>
-                                    </div>
+                        <div class="am-u-md-12">
+                                <div class="content-page">
+                <!-- row start -->
+			<div class="am-g">
+				<!-- col start -->
+				<div class="am-u-md-11">
+					<div class="card-box">
+						<div class="am-form-success">
+							    <label><font size = "6">Your Readername  : {{ reader.Name }}</font></label>
+                        </div>
+
+						<div class="am-btn-xs am-text-secondary">
+
+							    <label><font size = "4">Your ID : {{ reader.id }}</font></label>
+                                <br>
+                                <label><font size = "4">Your StudentCard: {{ reader.StudentCard }}</font></label>
+                                <br>
+                                <label><font size = "4">The number of book you can borrow: {{ can_num }}</font></label>
+                                <br>
+                        </div>
+
+
+					</div>
+				</div>
+
                                 </div>
                             </div>
                         <div class="am-u-md-7" >
-						<!-- 折线图堆叠 -->
-						    <div class="card-box">
-							<div  id="pie1" style="width: 100%;height: 400px;"></div>
-						    </div>
+
 					    </div>
 
                             <!-- col end -->
@@ -122,49 +116,7 @@
                         <!-- Row end -->
                     </div>
                     <div class="am-g">
-                        <!-- Row start -->
-                            <!--<div class="am-u-md-4">-->
-                                <!--<div class="card-box widget-user">-->
-                                    <!--<div>-->
-                                        <!--<img src="/static/assets/img/avatar-3.jpg" class="img-responsive img-circle" alt="user">-->
-                                        <!--<div class="wid-u-info">-->
-                                            <!--<h4 class="m-t-0 m-b-5 font-600">ID:{{Top1.id}} {{Top1.name}}</h4>-->
-                                            <!--<p class="text-muted m-b-5 font-13">TOP1:The Most active</p>-->
-                                            <!--<small class="text-warning"><b>Total BR : {{Top1.Act_times}}! </b></small>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash; col end &ndash;&gt;-->
-                            <!--<div class="am-u-md-4">-->
-                                <!--<div class="card-box widget-user">-->
-                                    <!--<div>-->
-                                        <!--<img src="/static/assets/img/avatar-2.jpg" class="img-responsive img-circle" alt="user">-->
-                                        <!--<div class="wid-u-info">-->
-                                            <!--<h4 class="m-t-0 m-b-5 font-600">ID:{{Top2.id}} {{Top2.name}}</h4>-->
-                                            <!--<p class="text-muted m-b-5 font-13">TOP2: The Second active</p>-->
-                                            <!--<small class="text-custom"><b>Total BR : {{Top2.Act_times}}! </b></small>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash; col end &ndash;&gt;-->
-                            <!--<div class="am-u-md-4">-->
-                                <!--<div class="card-box widget-user">-->
-                                    <!--<div>-->
-                                        <!--<img src="/static/assets/img/avatar-4.jpg" class="img-responsive img-circle" alt="user">-->
-                                        <!--<div class="wid-u-info">-->
-                                            <!--<h4 class="m-t-0 m-b-5 font-600">ID:{{Top3.id}} {{Top3.name}}</h4>-->
-                                            <!--<p class="text-muted m-b-5 font-13">TOP3: The Third active</p>-->
-                                            <!--<small class="text-success"><b>Total BR : {{Top3.Act_times}}!</b></small>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!-- col end -->
 
-                            <!-- col end -->
-                        <!-- Row end -->
                         </div>
 
                     <!-- Row start -->
@@ -173,6 +125,7 @@
                         <div class="am-u-md-12">
                             <div class="card-box">
                                 <h4 class="header-title m-t-0 m-b-30">LATEST BOOK</h4>
+
                                 <div class="am-scrollable-horizontal am-text-ms" style="font-family: '微软雅黑';">
                                         <table class="am-table   am-text-nowrap">
                                             <thead>
@@ -204,7 +157,8 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                                    </div>
+                                </div>
+                                <h4>Tips: Here are the latest 7 books 0v0 ! If you want more pls check the books list !</h4>
                             </div>
                         </div>
                         <!-- col end -->

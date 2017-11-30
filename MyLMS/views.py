@@ -33,7 +33,7 @@ def login_action(request):
                 request.session['reader_name'] = reader.Name
                 books = models.Book.objects.all()
                 if reader.Active :
-                    return render(request, 'index.html',)
+                    return index(request)
                 else:
                     return render(request, 'login.html',{'line': 'Please Active your account First!'})
     return render(request, 'login.html', {'line': 'Login failure!Please checkout your readername and your password!'})
@@ -86,22 +86,15 @@ def index(request):
     if "reader_id" not in request.session:
         return render(request, 'login.html', {'line': 'Please login first!'})
 
-    # readers = models.Record.objects.values_list('Reader').annotate(Borrow_num=Count('id')).order_by('-Borrow_num')
-    # reader = models.Reader.objects.get(pk=readers[0][0])
-    # Top1={'id':readers[0][0],'name':reader.Name,'Act_times':readers[0][1]}
-    # reader = models.Reader.objects.get(pk=readers[1][0])
-    # Top2 = {'id': readers[1][0], 'name': reader.Name, 'Act_times': readers[1][1]}
-    # reader = models.Reader.objects.get(pk=readers[2][0])
-    # Top3 = {'id': readers[2][0], 'name': reader.Name, 'Act_times': readers[2][1]}
+    #read info
+    reader = models.Reader.objects.get(pk=request.session["reader_id"])
+
+    #user can borrow book num
+    borrow_num = models.Record.objects.filter(Reader=request.session["reader_id"]).filter(Q(Status='BORROWED') | Q(Status='WAITFORCHECK'))
+    can_num = 2 - borrow_num.count()
 
     # add the latest 7 books
     Newbooks = models.Book.objects.all().order_by('-id')[0:7]
-
-    # available/sum
-    sum = models.Book.objects.all().count()
-    available = models.Book.objects.filter(Available=True).count()
-
-    booksum = {'sum':sum,'available':available}
 
     # borrow record
     records = models.Record.objects.filter(Reader=request.session["reader_id"]).values_list('Status').annotate(Count('id'))
@@ -115,21 +108,10 @@ def index(request):
             BORROWED = item[1]
         if item[0] == 'WAITFORCHECK':
             WAITFORCHECK=item[1]
-        if item[0] == 'TURNDOWN':
-            TURNDOWN = item[1]
-        if item[0] == 'DEMAGE':
-            DEMAGE = item[1]
         if item[0] == 'RETURNED':
             RETURNED = item[1]
 
-    # fine sum
-    record = models.Record.objects.filter(Reader=request.session["reader_id"])
-    t = record.aggregate(Sum('Fine'))['Fine__sum']
-    if t:
-        TotalFine = t
-    else:
-        TotalFine = 0
-    return render(request,'index.html',{'Newbooks':Newbooks,'booksum':booksum,'TotalFine':TotalFine,'BORROWED':BORROWED,'WAITFORCHECK':WAITFORCHECK,'TURNDOWN':TURNDOWN,'DEMAGE':DEMAGE,'RETURNED':RETURNED})
+    return render(request,'index.html',{'reader':reader,'can_num':can_num,'Newbooks':Newbooks})
 
 
 # booklist
